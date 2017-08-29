@@ -1,0 +1,88 @@
+function init(self)
+	-- Add initialization code here
+	-- Remove this function if not needed
+	print "main.script - init"
+	
+	level001load()
+end
+
+function final(self)
+	-- Add finalization code here
+	-- Remove this function if not needed
+	print "main.script - final"
+		
+end
+
+function update(self, dt)
+	-- Add update code here
+	-- Remove this function if not needed
+	-- print ("main.script - update" .. dt)
+end
+
+function on_message(self, message_id, message, sender)
+	-- Add message-handling code here
+	-- Remove this function if not needed
+	print ("main.script - on_message: " .. message_id)
+	
+    if message_id == hash("proxy_loaded") then
+        -- The collection has loaded and it's time to enable it.
+        msg.post(sender, "enable")
+
+    end
+end
+
+function on_input(self, action_id, action)
+	-- Add input-handling code here
+	-- Remove this function if not needed
+	-- print "main.script - on_input"
+end
+
+function on_reload(self)
+	-- Add reload-handling code here
+	-- Remove this function if not needed
+	print "main.script - on_reload"
+end
+
+
+-- My Functions
+-- =====================
+
+function level001load()
+	-- Add initialization code here
+	-- Remove this function if not needed
+	print "Loading Level 1"
+	
+	msg.post(".", "acquire_input_focus")
+	msg.post("main:/loader#level001-proxy", "load")
+	msg.post("main:/loader#level001-proxy", "init")
+end
+
+function level001unload()
+	-- Add initialization code here
+	-- Remove this function if not needed
+	print "Unloading Level 1"
+	
+	--msg.post(".", "release_input_focus")
+	--msg.post("main:/loader#level001-proxy", "load")
+	--msg.post("main:/loader#level001-proxy", "init")
+end
+
+
+function guiload()
+	-- Add initialization code here
+	-- Remove this function if not needed
+	print "Loading GUI"
+	
+	msg.post("main:/loader#gui-proxy", "load")
+	msg.post("main:/loader#gui-proxy", "init")
+end
+
+function guiunload()
+	-- Add initialization code here
+	-- Remove this function if not needed
+	print "Unloading GUI"
+	
+	--msg.post(".", "release_input_focus")
+	--msg.post("main:/loader#gui-proxy", "load")
+	--msg.post("main:/loader#gui-proxy", "init")
+end

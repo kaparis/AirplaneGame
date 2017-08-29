@@ -1,0 +1,88 @@
+spawned_enemies = {}
+
+createEnemyTimerMax = 0.4
+createEnemyTimer = createEnemyTimerMax
+
+screenWidth = tonumber(sys.get_config("display.width"))
+screenHeight = tonumber(sys.get_config("display.height"))
+
+function init(self)
+	-- Add initialization code here
+	-- Remove this function if not needed
+	print "enemies.script - init"    
+	print (msg.url())	
+end
+
+function final(self)
+	-- Add finalization code here
+	-- Remove this function if not needed
+	print "enemies.script - final"    
+end
+
+function update(self, dt)
+	-- Add update code here
+	-- Remove this function if not needed
+	-- print ("====== enemies - udpate - " .. dt)
+	
+	--  create a enemy
+	createEnemyTimer = createEnemyTimer - (1 * dt)
+	if createEnemyTimer < 0 then
+        createEnemyTimer = createEnemyTimerMax
+        
+		randomX = math.random(50, screenWidth - 50)
+    	randomY = 800
+    	
+    	local pos = go.get_position()
+    	pos.x = randomX
+    	pos.y = randomY
+    	local component = "#enemyFactory"
+    	local id = factory.create(component, pos)
+    	table.insert(spawned_enemies,id)    	
+    end
+	
+	-- update the positions of enemies
+    for i, enemy in ipairs(spawned_enemies) do
+    	local pos = go.get_world_position(enemy)
+    	--pprint (pos)
+    	--local pos2 = go.get_world_position 
+    	--pprint (pos2)
+    	pos.y = pos.y - (200 * dt)        
+    	go.set_position(pos, enemy)
+    	
+    	-- remove enemies when they pass off the screen
+    	if pos.y < -50 then 
+    		table.remove(spawned_enemies, i)
+    		print "enemy plane left screen"     
+    	end
+    end
+    
+end
+
+function on_message(self, message_id, message, sender)
+	-- Add message-handling code here
+	-- Remove this function if not needed
+	print("enemies.script - on_message: " .. message_id)	
+		
+	if message_id == hash("deleteEnemy") then
+		
+		removeEnemy(spawned_enemies, message.enemyId)		
+	end			
+end
+
+function on_input(self, action_id, action)
+	-- Add input-handling code here
+	-- Remove this function if not needed		
+end
+
+function on_reload(self)
+	-- Add reload-handling code here
+	-- Remove this function if not needed
+end
+
+function removeEnemy(mytable, element)
+  for i, value in pairs(mytable) do
+    if value == element then    	
+		table.remove(mytable,i)    	
+    end
+  end  
+end

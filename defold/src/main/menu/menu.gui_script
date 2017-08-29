@@ -1,0 +1,77 @@
+function init(self)
+	-- Add initialization code here
+	-- Remove this function if not needed
+	print ("menu.gui.script - init")
+	
+	 msg.post(".", "acquire_input_focus") 
+	 
+end
+
+function final(self)
+	-- Add finalization code here
+	-- Remove this function if not needed
+	msg.post(".", "release_input_focus")
+end
+
+function update(self, dt)
+	-- Add update code here
+	-- Remove this function if not needed
+end
+
+function on_message(self, message_id, message, sender)
+	-- Add message-handling code here
+	-- Remove this function if not needed
+	
+	
+    if message_id == hash("proxy_loaded") then
+        -- The collection has loaded and it's time to enable it.        
+        msg.post(sender, "enable")
+        guiUnload()
+    end
+end
+
+function on_input(self, action_id, action)
+	-- Add input-handling code here
+	-- Remove this function if not needed
+	--print ("menu.gui_script - on_input")
+	--print (action_id)
+	
+	if action_id == hash("click") and action.pressed then 
+        local btnPlay = gui.get_node("btnPlay") 
+        local btnQuit = gui.get_node("btnQuit")
+                
+        if gui.pick_node(btnPlay, action.x, action.y) then 
+            level001load()
+        end
+        
+        if gui.pick_node(btnQuit, action.x, action.y) then 
+        	os.exit()
+        end
+    end
+end
+
+function on_reload(self)
+	-- Add input-handling code here
+	-- Remove this function if not needed
+end
+
+-- Funtions
+
+function level001load()
+	-- Add initialization code here
+	-- Remove this function if not needed
+	print "Menu.GUI_Script - Load Level 001"
+	
+	msg.post(".", "acquire_input_focus")
+	msg.post("main:/loader#level001-proxy", "load")
+	msg.post("main:/loader#level001-proxy", "init")
+end
+
+-- After we loaded new collection, this confirms to enable it on the screen,
+-- then unload the original collection.
+function guiUnload()	
+    msg.post("main:/loader#gui-proxy", "unload")	
+    
+    print "Menu.GUI_Script - Unload GUI"
+end
+

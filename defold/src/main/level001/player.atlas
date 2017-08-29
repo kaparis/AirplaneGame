@@ -1,0 +1,9 @@
+images {
+  image: "/assets/Aircraft_01.png"
+}
+images {
+  image: "/assets/bullet_blue0000.png"
+}
+margin: 0
+extrude_borders: 0
+inner_padding: 0
