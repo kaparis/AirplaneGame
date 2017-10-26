@@ -7,5 +7,6 @@ The goal is to learn about each game engine and be able to see how this simple g
 Code Released For
 * Love 
 * Defold
+* Corona
 
 
